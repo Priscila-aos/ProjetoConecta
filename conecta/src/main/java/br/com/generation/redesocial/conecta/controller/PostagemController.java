@@ -1,3 +1,4 @@
+//TODO implementar PUT e DELETE para fazer tratamento atraves do método http - github Camis
 package br.com.generation.redesocial.conecta.controller;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import br.com.generation.redesocial.conecta.repository.PostagemRepository;
 @RequestMapping("/postagem")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PostagemController {
-
+	
 	@Autowired
 	private PostagemRepository repository;
 	
@@ -38,22 +39,19 @@ public class PostagemController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	@GetMapping("/titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> getByTitulo (@PathVariable String titulo){
+	public ResponseEntity<List<Postagem>> GetByTitulo (@PathVariable String titulo){
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
-	
 	@PostMapping
-    public ResponseEntity<Postagem> PostPostagem(@RequestBody Postagem postagem){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
-    }
-	
+	public ResponseEntity<Postagem> PostPostagem(@RequestBody Postagem postagem){
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+	}
 	@PutMapping
-    public ResponseEntity<Postagem> PutPostagem(@RequestBody Postagem postagem){
-        return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
-    }
-	
+	public ResponseEntity<Postagem> PutPostagem(@RequestBody Postagem postagem){
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+	}
 	@DeleteMapping("/{id}")
-	public void delete (@PathVariable long id) {
+	public void DeletePostagem(@PathVariable long id) {
 		repository.deleteById(id);
 	}
 }

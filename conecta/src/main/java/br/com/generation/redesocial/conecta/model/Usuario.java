@@ -1,3 +1,5 @@
+//FEITO - TODO trocar ALL por remove (cascade.ALL)
+// @Email = anotação
 package br.com.generation.redesocial.conecta.model;
 
 import java.util.List;
@@ -15,69 +17,76 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "tb_usuarios")
+@Table(name = "tb_usuario")
 public class Usuario {
 	
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private long id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	
+	@NotBlank(message="Valor não pode ser nulo")
+	@Size(min=5,max=80, message="O nome deve ter entre 5 e 80 caracteres")
+	private String nome;
+	
+	@NotBlank(message="Valor não pode ser nulo")
+	@Size(min=5,max=80, message="O email deve ter entre 5 e 80 caracteres")
+	private String email;
+	
+	@NotBlank(message="Valor não pode ser nulo")
+	@Size(min=5,max=80, message="A senha deve ter entre 5 e 80 caracteres, com letras e números")
+	private String senha;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties("usuario")
+	private List<Postagem> postagem;
+	
+	public Usuario(long id, String nome, String email, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
+	
+	public Usuario() {}
+	
+	public List<Postagem> getPostagem() {
+		return postagem;
+	}
 
-@NotBlank(message = "Este campo não pode ficar vazio")
-@Size(min = 5,max = 80, message = "O nome deve ter no min 5 e no max 80 caracteres.")
-private String nome;
+	public void setPostagem(List<Postagem> postagem) {
+		this.postagem = postagem;
+	}
 
-@NotBlank(message = "Este campo não pode ficar em branco e pode ter no max 80 caracteres.")
-@Size(min = 5,max = 80, message = "O email deve ter no min 5 e no max 80 caracteres.")
-private String email;
+	public long getId() {
+		return id;
+	}
 
-@NotBlank(message = "A senha deve conter pelo menos uma letra, ter no max 80 caracteres.")
-@Size(min = 5,max = 80, message = "Asenha deve ter no min 5 e no max 80 caracteres.")
-private String senha;
+	public void setId(long id) {
+		this.id = id;
+	}
 
-@OneToMany(mappedBy = "usuarios", cascade = CascadeType.ALL)
-@JsonIgnoreProperties("usuarios")
-private List<Postagem> postagem;
+	public String getNome() {
+		return nome;
+	}
 
-public long getId() {
-	return id;
-}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-public void setId(long id) {
-	this.id = id;
-}
+	public String getEmail() {
+		return email;
+	}
 
-public String getNome() {
-	return nome;
-}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-public void setNome(String nome) {
-	this.nome = nome;
-}
+	public String getSenha() {
+		return senha;
+	}
 
-public String getEmail() {
-	return email;
-}
-
-public void setEmail(String email) {
-	this.email = email;
-}
-
-public String getSenha() {
-	return senha;
-}
-
-public void setSenha(String senha) {
-	this.senha = senha;
-}
-
-public List<Postagem> getPostagem() {
-	return postagem;
-}
-
-public void setPostagem(List<Postagem> postagem) {
-	this.postagem = postagem;
-}
-
-
-
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	
 }
